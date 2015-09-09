@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Hamcrest by horance-liu</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Hamcrest</h1>
+        <h2>Hamcrest is a library of matchers, which can be combined in to create flexible expressions of intent in tests. </h2>
+        <a href="https://github.com/horance-liu/hamcrest" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <p>Hamcrest是Java社区一个轻量级的，可扩展的Matcher框架，曾被Kent Beck引入到JUnit框架中，用于增强断言的机制。Magellan引入了Hamcrest的设计，实现了一个C++移植版本的Hamcrest，使得Magellang的断言更加具有扩展性和可读性。</p>
+
+<h2>
+<a id="anything" class="anchor" href="#anything" aria-hidden="true"><span class="octicon octicon-link"></span></a>anything</h2>
+
+<table>
+<thead>
+<tr>
+<th>匹配器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>anything</td>
+<td>总是匹配</td>
+</tr>
+<tr>
+<td>_</td>
+<td>anything语法糖</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight highlight-cpp"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>magellan/magellan.hpp<span class="pl-pds">&gt;</span></span>
+
+USING_HAMCREST_NS
+
+<span class="pl-en">FIXTURE</span>(AnythingTest)
+{
+    <span class="pl-c1">TEST</span>(<span class="pl-s"><span class="pl-pds">"</span>should always be matched<span class="pl-pds">"</span></span>)
+    {
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">1</span>, anything&lt;<span class="pl-k">int</span>&gt;());
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">1u</span>, anything&lt;<span class="pl-k">unsigned</span> <span class="pl-k">int</span>&gt;());
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">1.0</span>, anything&lt;<span class="pl-k">double</span>&gt;());
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">1</span>.<span class="pl-c1">0f</span>, anything&lt;<span class="pl-k">float</span>&gt;());
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">false</span>, anything&lt;<span class="pl-k">bool</span>&gt;());
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">true</span>, anything&lt;<span class="pl-k">bool</span>&gt;());
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-v">nullptr</span>, anything&lt;std::<span class="pl-c1">nullptr_t</span>&gt;());
+    }
+
+    <span class="pl-c1">TEST</span>(<span class="pl-s"><span class="pl-pds">"</span>should support _ as syntactic sugar<span class="pl-pds">"</span></span>)
+    {
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">1u</span>, <span class="pl-c1">_</span>(<span class="pl-k">int</span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">1</span>.<span class="pl-c1">0f</span>, <span class="pl-c1">_</span>(<span class="pl-k">float</span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">false</span>, <span class="pl-c1">_</span>(<span class="pl-k">int</span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-v">nullptr</span>, <span class="pl-c1">_</span>(std::<span class="pl-c1">nullptr_t</span>));
+    }
+};</pre></div>
+
+<h2>
+<a id="比较器" class="anchor" href="#%E6%AF%94%E8%BE%83%E5%99%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>比较器</h2>
+
+<table>
+<thead>
+<tr>
+<th>匹配器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>eq</td>
+<td>相等</td>
+</tr>
+<tr>
+<td>ne</td>
+<td>不相等</td>
+</tr>
+<tr>
+<td>lt</td>
+<td>小于</td>
+</tr>
+<tr>
+<td>gt</td>
+<td>大于</td>
+</tr>
+<tr>
+<td>le</td>
+<td>小于或等于</td>
+</tr>
+<tr>
+<td>ge</td>
+<td>大于或等于</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight highlight-cpp"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>magellan/magellan.hpp<span class="pl-pds">&gt;</span></span>
+
+USING_HAMCREST_NS
+
+<span class="pl-en">FIXTURE</span>(EqualToTest)
+{
+    <span class="pl-c1">TEST</span>(<span class="pl-s"><span class="pl-pds">"</span>should allow compare to integer<span class="pl-pds">"</span></span>)
+    {
+        <span class="pl-c1">ASSERT_THAT</span>(0xFF, <span class="pl-c1">eq</span>(0xFF));
+        <span class="pl-c1">ASSERT_THAT</span>(0xFF, <span class="pl-c1">is</span>(<span class="pl-c1">eq</span>(0xFF)));
+
+        <span class="pl-c1">ASSERT_THAT</span>(0xFF, <span class="pl-c1">is</span>(0xFF));
+        <span class="pl-c1">ASSERT_THAT</span>(0xFF == 0xFF, <span class="pl-c1">is</span>(<span class="pl-c1">true</span>));
+    }
+
+    <span class="pl-c1">TEST</span>(<span class="pl-s"><span class="pl-pds">"</span>should allow compare to bool<span class="pl-pds">"</span></span>)
+    {
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">true</span>, <span class="pl-c1">eq</span>(<span class="pl-c1">true</span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">false</span>, <span class="pl-c1">eq</span>(<span class="pl-c1">false</span>));
+    }
+
+    <span class="pl-c1">TEST</span>(<span class="pl-s"><span class="pl-pds">"</span>should allow compare to string<span class="pl-pds">"</span></span>)
+    {
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>, <span class="pl-c1">eq</span>(<span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>, <span class="pl-c1">eq</span>(<span class="pl-c1">std::string</span>(<span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>)));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">std::string</span>(<span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>), <span class="pl-c1">eq</span>(<span class="pl-c1">std::string</span>(<span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>)));
+    }
+};
+
+<span class="pl-en">FIXTURE</span>(NotEqualToTest)
+{
+    <span class="pl-c1">TEST</span>(<span class="pl-s"><span class="pl-pds">"</span>should allow compare to integer<span class="pl-pds">"</span></span>)
+    {
+        <span class="pl-c1">ASSERT_THAT</span>(0xFF, <span class="pl-c1">ne</span>(0xEE));
+
+        <span class="pl-c1">ASSERT_THAT</span>(0xFF, <span class="pl-c1">is_not</span>(0xEE));
+        <span class="pl-c1">ASSERT_THAT</span>(0xFF, <span class="pl-c1">is_not</span>(<span class="pl-c1">eq</span>(0xEE)));
+        <span class="pl-c1">ASSERT_THAT</span>(0xFF != 0xEE, <span class="pl-c1">is</span>(<span class="pl-c1">true</span>));
+    }
+
+    <span class="pl-c1">TEST</span>(<span class="pl-s"><span class="pl-pds">"</span>should allow compare to boolean<span class="pl-pds">"</span></span>)
+    {
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">true</span>, <span class="pl-c1">ne</span>(<span class="pl-c1">false</span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">false</span>, <span class="pl-c1">ne</span>(<span class="pl-c1">true</span>));
+    }
+
+    <span class="pl-c1">TEST</span>(<span class="pl-s"><span class="pl-pds">"</span>should allow compare to string<span class="pl-pds">"</span></span>)
+    {
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>, <span class="pl-c1">ne</span>(<span class="pl-s"><span class="pl-pds">"</span>world<span class="pl-pds">"</span></span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>, <span class="pl-c1">ne</span>(<span class="pl-c1">std::string</span>(<span class="pl-s"><span class="pl-pds">"</span>world<span class="pl-pds">"</span></span>)));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">std::string</span>(<span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>), <span class="pl-c1">ne</span>(<span class="pl-c1">std::string</span>(<span class="pl-s"><span class="pl-pds">"</span>world<span class="pl-pds">"</span></span>)));
+    }
+};</pre></div>
+
+<h2>
+<a id="修饰器" class="anchor" href="#%E4%BF%AE%E9%A5%B0%E5%99%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>修饰器</h2>
+
+<table>
+<thead>
+<tr>
+<th>匹配器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>is</td>
+<td>可读性装饰器</td>
+</tr>
+<tr>
+<td>is_not</td>
+<td>可读性装饰器</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight highlight-cpp"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>magellan/magellan.hpp<span class="pl-pds">&gt;</span></span>
+
+USING_HAMCREST_NS
+
+<span class="pl-en">FIXTURE</span>(IsNotTest)
+{
+    <span class="pl-c1">TEST</span>(<span class="pl-s"><span class="pl-pds">"</span>integer<span class="pl-pds">"</span></span>)
+    {
+        <span class="pl-c1">ASSERT_THAT</span>(0xFF, <span class="pl-c1">is_not</span>(0xEE));
+        <span class="pl-c1">ASSERT_THAT</span>(0xFF, <span class="pl-c1">is_not</span>(<span class="pl-c1">eq</span>(0xEE)));
+    }
+
+    <span class="pl-c1">TEST</span>(<span class="pl-s"><span class="pl-pds">"</span>string<span class="pl-pds">"</span></span>)
+    {
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>, <span class="pl-c1">is_not</span>(<span class="pl-s"><span class="pl-pds">"</span>world<span class="pl-pds">"</span></span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>, <span class="pl-c1">is_not</span>(<span class="pl-c1">eq</span>(<span class="pl-s"><span class="pl-pds">"</span>world<span class="pl-pds">"</span></span>)));
+
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>, <span class="pl-c1">is_not</span>(<span class="pl-c1">std::string</span>(<span class="pl-s"><span class="pl-pds">"</span>world<span class="pl-pds">"</span></span>)));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">std::string</span>(<span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>), <span class="pl-c1">is_not</span>(<span class="pl-c1">std::string</span>(<span class="pl-s"><span class="pl-pds">"</span>world<span class="pl-pds">"</span></span>)));
+    }
+};</pre></div>
+
+<h2>
+<a id="空指针" class="anchor" href="#%E7%A9%BA%E6%8C%87%E9%92%88" aria-hidden="true"><span class="octicon octicon-link"></span></a>空指针</h2>
+
+<table>
+<thead>
+<tr>
+<th>匹配器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>nil</td>
+<td>空指针</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight highlight-cpp"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>magellan/magellan.hpp<span class="pl-pds">&gt;</span></span>
+
+USING_HAMCREST_NS
+
+<span class="pl-en">FIXTURE</span>(NilTest)
+{
+    <span class="pl-c1">TEST</span>(<span class="pl-s"><span class="pl-pds">"</span>equal_to<span class="pl-pds">"</span></span>)
+    {
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-v">nullptr</span>, <span class="pl-c1">eq</span>(<span class="pl-v">nullptr</span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">0</span>, <span class="pl-c1">eq</span>(<span class="pl-c1">NULL</span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">NULL</span>, <span class="pl-c1">eq</span>(<span class="pl-c1">NULL</span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">NULL</span>, <span class="pl-c1">eq</span>(<span class="pl-c1">0</span>));
+    }
+
+    <span class="pl-c1">TEST</span>(<span class="pl-s"><span class="pl-pds">"</span>is<span class="pl-pds">"</span></span>)
+    {
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-v">nullptr</span>, <span class="pl-c1">is</span>(<span class="pl-v">nullptr</span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-v">nullptr</span>, <span class="pl-c1">is</span>(<span class="pl-c1">eq</span>(<span class="pl-v">nullptr</span>)));
+
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">0</span>, <span class="pl-c1">is</span>(<span class="pl-c1">0</span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">NULL</span>, <span class="pl-c1">is</span>(<span class="pl-c1">NULL</span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">0</span>, <span class="pl-c1">is</span>(<span class="pl-c1">NULL</span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">NULL</span>, <span class="pl-c1">is</span>(<span class="pl-c1">0</span>));
+    }
+
+    <span class="pl-c1">TEST</span>(<span class="pl-s"><span class="pl-pds">"</span>nil<span class="pl-pds">"</span></span>)
+    {
+        <span class="pl-c1">ASSERT_THAT</span>((<span class="pl-k">void</span>*)<span class="pl-c1">NULL</span>, <span class="pl-c1">nil</span>());
+        <span class="pl-c1">ASSERT_THAT</span>((<span class="pl-k">void</span>*)<span class="pl-c1">0</span>, <span class="pl-c1">nil</span>());
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-v">nullptr</span>, <span class="pl-c1">nil</span>());
+    }
+};</pre></div>
+
+<h2>
+<a id="字符串" class="anchor" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2" aria-hidden="true"><span class="octicon octicon-link"></span></a>字符串</h2>
+
+<table>
+<thead>
+<tr>
+<th>匹配器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>contains_string</td>
+<td>断言是否包含子串</td>
+</tr>
+<tr>
+<td>contains_string_ignoring_case</td>
+<td>忽略大小写，断言是否包含子</td>
+</tr>
+<tr>
+<td>starts_with</td>
+<td>断言是否以该子串开头</td>
+</tr>
+<tr>
+<td>starts_with_ignoring_case</td>
+<td>忽略大小写，断言是否以该子串开头</td>
+</tr>
+<tr>
+<td>ends_with</td>
+<td>断言是否以该子串结尾</td>
+</tr>
+<tr>
+<td>ends_with_ignoring_case</td>
+<td>忽略大小写，断言是否以该子串结尾</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight highlight-cpp"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>magellan/magellan.hpp<span class="pl-pds">&gt;</span></span>
+
+USING_HAMCREST_NS
+
+<span class="pl-en">FIXTURE</span>(StartsWithTest)
+{
+    <span class="pl-c1">TEST</span>(<span class="pl-s"><span class="pl-pds">"</span>case sensitive<span class="pl-pds">"</span></span>)
+    {
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-s"><span class="pl-pds">"</span>ruby-cpp<span class="pl-pds">"</span></span>, <span class="pl-c1">starts_with</span>(<span class="pl-s"><span class="pl-pds">"</span>ruby<span class="pl-pds">"</span></span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-s"><span class="pl-pds">"</span>ruby-cpp<span class="pl-pds">"</span></span>, <span class="pl-c1">is</span>(<span class="pl-c1">starts_with</span>(<span class="pl-s"><span class="pl-pds">"</span>ruby<span class="pl-pds">"</span></span>)));
+
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">std::string</span>(<span class="pl-s"><span class="pl-pds">"</span>ruby-cpp<span class="pl-pds">"</span></span>), <span class="pl-c1">starts_with</span>(<span class="pl-s"><span class="pl-pds">"</span>ruby<span class="pl-pds">"</span></span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-s"><span class="pl-pds">"</span>ruby-cpp<span class="pl-pds">"</span></span>, <span class="pl-c1">starts_with</span>(<span class="pl-c1">std::string</span>(<span class="pl-s"><span class="pl-pds">"</span>ruby<span class="pl-pds">"</span></span>)));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">std::string</span>(<span class="pl-s"><span class="pl-pds">"</span>ruby-cpp<span class="pl-pds">"</span></span>), <span class="pl-c1">starts_with</span>(<span class="pl-c1">std::string</span>(<span class="pl-s"><span class="pl-pds">"</span>ruby<span class="pl-pds">"</span></span>)));
+    }
+
+    <span class="pl-c1">TEST</span>(<span class="pl-s"><span class="pl-pds">"</span>ignoring case<span class="pl-pds">"</span></span>)
+    {
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-s"><span class="pl-pds">"</span>ruby-cpp<span class="pl-pds">"</span></span>, <span class="pl-c1">starts_with_ignoring_case</span>(<span class="pl-s"><span class="pl-pds">"</span>Ruby<span class="pl-pds">"</span></span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-s"><span class="pl-pds">"</span>ruby-cpp<span class="pl-pds">"</span></span>, <span class="pl-c1">is</span>(<span class="pl-c1">starts_with_ignoring_case</span>(<span class="pl-s"><span class="pl-pds">"</span>Ruby<span class="pl-pds">"</span></span>)));
+
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">std::string</span>(<span class="pl-s"><span class="pl-pds">"</span>ruby-cpp<span class="pl-pds">"</span></span>), <span class="pl-c1">starts_with_ignoring_case</span>(<span class="pl-s"><span class="pl-pds">"</span>RUBY<span class="pl-pds">"</span></span>));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-s"><span class="pl-pds">"</span>Ruby-Cpp<span class="pl-pds">"</span></span>, <span class="pl-c1">starts_with_ignoring_case</span>(<span class="pl-c1">std::string</span>(<span class="pl-s"><span class="pl-pds">"</span>rUBY<span class="pl-pds">"</span></span>)));
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">std::string</span>(<span class="pl-s"><span class="pl-pds">"</span>RUBY-CPP<span class="pl-pds">"</span></span>), <span class="pl-c1">starts_with_ignoring_case</span>(<span class="pl-c1">std::string</span>(<span class="pl-s"><span class="pl-pds">"</span>ruby<span class="pl-pds">"</span></span>)));
+    }
+};</pre></div>
+
+<h2>
+<a id="浮点数" class="anchor" href="#%E6%B5%AE%E7%82%B9%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>浮点数</h2>
+
+<table>
+<thead>
+<tr>
+<th>匹配器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>close_to</td>
+<td>断言浮点数近似等于</td>
+</tr>
+<tr>
+<td>nan</td>
+<td>断言浮点数不是一个数字</td>
+</tr>
+</tbody>
+</table>
+
+<div class="highlight highlight-cpp"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>magellan/magellan.hpp<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>math.h<span class="pl-pds">&gt;</span></span>
+
+USING_HAMCREST_NS
+
+<span class="pl-en">FIXTURE</span>(IsNanTest)
+{
+    <span class="pl-c1">TEST</span>(<span class="pl-s"><span class="pl-pds">"</span>double<span class="pl-pds">"</span></span>)
+    {
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">sqrt</span>(-<span class="pl-c1">1.0</span>), <span class="pl-c1">nan</span>());
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">sqrt</span>(-<span class="pl-c1">1.0</span>), <span class="pl-c1">is</span>(<span class="pl-c1">nan</span>()));
+
+        <span class="pl-c1">ASSERT_THAT</span>(<span class="pl-c1">1.0</span>/<span class="pl-c1">0.0</span>,  <span class="pl-c1">is_not</span>(<span class="pl-c1">nan</span>()));
+        <span class="pl-c1">ASSERT_THAT</span>(-<span class="pl-c1">1.0</span>/<span class="pl-c1">0.0</span>, <span class="pl-c1">is_not</span>(<span class="pl-c1">nan</span>()));
+    }
+};</pre></div>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/horance-liu/hamcrest/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/horance-liu/hamcrest/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/horance-liu/hamcrest"></a> is maintained by <a href="https://github.com/horance-liu">horance-liu</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
