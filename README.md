@@ -1,3 +1,5 @@
+# Hamcrest
+
 Hamcrest是Java社区一个轻量级的，可扩展的Matcher框架，曾被Kent Beck引入到JUnit框架中，用于增强断言的机制。Magellan引入了Hamcrest的设计，实现了一个C\+\+移植版本的Hamcrest，使得Magellang的断言更加具有扩展性和可读性。
 
 ## anything
