@@ -2,7 +2,7 @@
 #define HB4FDA3F1_A2B1_407F_922D_FF7A05FBB0D4
 
 #include <hamcrest/internal/SelfDescribingContainer.h>
-#include <l0-infra/std/String.h>
+#include <ccinfra/base/String.h>
 
 HAMCREST_NS_BEGIN
 
@@ -15,7 +15,7 @@ struct Description
     Description& appendValue(const T& value)
     {
         desc += "<";
-        desc += stdext::toTypeAndValueString(value);
+        desc += ccinfra::toTypeAndValueString(value);
         desc += ">";
         return *this;
     }

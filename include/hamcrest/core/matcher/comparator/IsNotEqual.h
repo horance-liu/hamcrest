@@ -2,7 +2,7 @@
 #define H077CDC2B_EE2B_431F_89BE_F9EAE3061C3A
 
 #include "hamcrest/core/matcher/comparator/Comparator.h"
-#include <l0-infra/std/Functional.h>
+#include <ccinfra/base/Functional.h>
 
 HAMCREST_NS_BEGIN
 

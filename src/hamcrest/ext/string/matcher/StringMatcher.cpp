@@ -1,11 +1,11 @@
 #include <hamcrest/ext/string/matcher/StringMatcher.h>
-#include <l0-infra/std/String.h>
+#include <ccinfra/base/String.h>
 
 HAMCREST_NS_BEGIN
 
 inline std::string StringMatcher::converted(const std::string& str) const
 {
-    return ignoringCase ? stdext::to_lower(str) : str;
+    return ignoringCase ? ccinfra::to_lower(str) : str;
 }
 
 StringMatcher::StringMatcher
