@@ -15,7 +15,7 @@ struct Description
     Description& appendValue(const T& value)
     {
         desc += "<";
-        desc += ccinfra::toTypeAndValueString(value);
+        desc += cub::toTypeAndValueString(value);
         desc += ">";
         return *this;
     }

@@ -5,7 +5,7 @@ HAMCREST_NS_BEGIN
 
 inline std::string StringMatcher::converted(const std::string& str) const
 {
-    return ignoringCase ? ccinfra::to_lower(str) : str;
+    return ignoringCase ? cub::to_lower(str) : str;
 }
 
 StringMatcher::StringMatcher
